@@ -1,49 +1,84 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 
-class HomeScreen extends StatefulWidget {
+import 'widgets/video_widget.dart';
+
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-
-  late VideoPlayerController controller;
-
-  @override
-  void initState() {
-    controller = VideoPlayerController.networkUrl(
-      Uri.parse('https://videos.pexels.com/video-files/5386411/5386411-uhd_1440_2732_25fps.mp4')
-    )..initialize();
-
-    controller.play();
-    controller.setLooping(true);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onTap: () => controller.value.isPlaying
-          ? controller.pause()
-          : controller.play(),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: VideoPlayer(
-            controller,
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          const VideoWidget(),
+          const Align(
+            alignment: Alignment.centerRight,
+            child: HomeIconsWidget(),
           ),
-        ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: const EdgeInsets.all(40),
+              alignment: Alignment.topCenter,
+              height: 120,
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(1, 1, 1, 0.95)
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Icon(
+                    Icons.movie_creation_outlined,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  Icon(
+                    Icons.search,
+                    color: Colors.white,
+                    size: 30,
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
+}
+
+class HomeIconsWidget extends StatelessWidget {
+  const HomeIconsWidget({
+    super.key,
+  });
 
   @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(right: 10),
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.favorite,
+            size: 50,
+            color: Colors.red
+          ),
+          SizedBox(height: 20),
+          Icon(
+            Icons.chat_bubble_rounded,
+            size: 50,
+            color: Colors.white
+          ),
+          SizedBox(height: 20),
+          Icon(
+            Icons.bookmark,
+            size: 50,
+            color: Colors.yellow,
+          )
+        ],
+      ),
+    );
   }
 }
