@@ -5,7 +5,6 @@ class VideoModel {
     required this.height,
     required this.duration,
     required this.fullRes,
-    required this.tags,
     required this.url,
     required this.image,
     required this.videoFiles,
@@ -15,7 +14,6 @@ class VideoModel {
     final int height;
     final int duration;
     final dynamic fullRes;
-    final List<dynamic> tags;
     final String url;
     final String image;
     final List<VideoFile> videoFiles;
