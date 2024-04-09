@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'ui/home/home_screen.dart';
 
 void main() => runApp(const TikTokLikeApp());
 
@@ -8,11 +9,9 @@ class TikTokLikeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello, world!'),
-        ),
-      ),
+      title: 'TikTok Like App',
+      home: HomeScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
