@@ -30,12 +30,20 @@ class _VideoWidgetState extends State<VideoWidget> {
         onTap: () => controller.value.isPlaying
           ? controller.pause()
           : controller.play(),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: VideoPlayer(
-            controller,
-          ),
+        child: Stack(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: VideoPlayer(
+                controller,
+              )
+            ),
+            const Align(
+              alignment: Alignment.centerRight,
+              child: HomeIconsWidget(),
+            ),
+          ]
         ),
       ),
     );
@@ -45,5 +53,40 @@ class _VideoWidgetState extends State<VideoWidget> {
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+}
+
+class HomeIconsWidget extends StatelessWidget {
+  const HomeIconsWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(right: 10),
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.favorite,
+            size: 50,
+            color: Colors.red
+          ),
+          SizedBox(height: 20),
+          Icon(
+            Icons.chat_bubble_rounded,
+            size: 50,
+            color: Colors.white
+          ),
+          SizedBox(height: 20),
+          Icon(
+            Icons.bookmark,
+            size: 50,
+            color: Colors.yellow,
+          )
+        ],
+      ),
+    );
   }
 }
