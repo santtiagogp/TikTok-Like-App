@@ -7,14 +7,21 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: PageView(
-        scrollDirection: Axis.vertical,
-        children: const [
-          VideoWidget(),
-          VideoWidget(),
-          VideoWidget(),
-        ],
+      backgroundColor: Colors.black,
+      body: NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (notification) {
+          notification.disallowIndicator();
+          return false;
+        },
+        child: PageView(
+          physics: const ClampingScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          children: const [
+            VideoWidget('https://videos.pexels.com/video-files/5386411/5386411-hd_720_1366_25fps.mp4'),
+            VideoWidget('https://videos.pexels.com/video-files/6963395/6963395-hd_1080_1920_25fps.mp4'),
+            VideoWidget('https://videos.pexels.com/video-files/7438482/7438482-hd_1080_1872_30fps.mp4'),
+          ],
+        ),
       )
     );
   }
