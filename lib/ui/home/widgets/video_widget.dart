@@ -13,9 +13,11 @@ class VideoWidget extends StatefulWidget {
   State<VideoWidget> createState() => _VideoWidgetState();
 }
 
-class _VideoWidgetState extends State<VideoWidget> {
+class _VideoWidgetState extends State<VideoWidget> with SingleTickerProviderStateMixin {
 
   late VideoPlayerController controller;
+  late AnimationController animController;
+  bool showPause = false;
 
   @override
   void initState() {
@@ -25,6 +27,12 @@ class _VideoWidgetState extends State<VideoWidget> {
 
     controller.play();
     controller.setLooping(true);
+
+    animController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1)
+    );
+
     super.initState();
   }
 
@@ -32,9 +40,16 @@ class _VideoWidgetState extends State<VideoWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        onTap: () => controller.value.isPlaying
-          ? controller.pause()
-          : controller.play(),
+        onTap: () {
+          controller.value.isPlaying ? controller.pause() : controller.play();
+          if(showPause == false) {
+            animController.forward();
+            showPause = true;
+          } else {
+            animController.reverse();
+            showPause = false;
+          }
+        },
         child: Stack(
           children: [
             SizedBox(
@@ -48,6 +63,15 @@ class _VideoWidgetState extends State<VideoWidget> {
               alignment: Alignment.centerRight,
               child: HomeIconsWidget(),
             ),
+            Align(
+              heightFactor: 13,
+              alignment: Alignment.bottomRight,
+              child: AnimatedIcon(
+                icon: AnimatedIcons.pause_play,
+                progress: animController,
+                size: 70,
+              ),
+            )
           ]
         ),
       ),
@@ -57,6 +81,7 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void dispose() {
     controller.dispose();
+    animController.dispose();
     super.dispose();
   }
 }
