@@ -30,7 +30,7 @@ class _VideoWidgetState extends State<VideoWidget> with SingleTickerProviderStat
 
     animController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1)
+      duration: const Duration(milliseconds: 400)
     );
 
     super.initState();
@@ -64,12 +64,13 @@ class _VideoWidgetState extends State<VideoWidget> with SingleTickerProviderStat
               child: HomeIconsWidget(),
             ),
             Align(
-              heightFactor: 13,
+              heightFactor: 18,
               alignment: Alignment.bottomRight,
               child: AnimatedIcon(
-                icon: AnimatedIcons.pause_play,
+                color: Colors.black,
+                icon: AnimatedIcons.play_pause,
                 progress: animController,
-                size: 70,
+                size: 50,
               ),
             )
           ]
