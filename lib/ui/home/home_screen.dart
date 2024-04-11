@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'home_bloc/home_bloc.dart';
 import 'widgets/video_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -6,6 +9,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final bloc = BlocProvider.of<HomeBloc>(context);
+
+    bloc.add(OnInit());
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: NotificationListener<OverscrollIndicatorNotification>(
@@ -13,15 +21,31 @@ class HomeScreen extends StatelessWidget {
           notification.disallowIndicator();
           return false;
         },
-        child: PageView(
-          physics: const ClampingScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          children: const [
-            VideoWidget('https://videos.pexels.com/video-files/5386411/5386411-hd_720_1366_25fps.mp4'),
-            VideoWidget('https://videos.pexels.com/video-files/6963395/6963395-hd_1080_1920_25fps.mp4'),
-            VideoWidget('https://videos.pexels.com/video-files/7438482/7438482-hd_1080_1872_30fps.mp4'),
-            VideoWidget('https://videos.pexels.com/video-files/1409899/1409899-hd_1280_720_25fps.mp4')
-          ],
+        child: BlocBuilder<HomeBloc, HomeState>(
+          bloc: bloc,
+          builder: (context, state) {
+
+            if(state is HomeFetched) {
+
+              final videos = state.videos;
+
+              return PageView.builder(
+                itemCount: videos.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  return VideoWidget(
+                    videos[index].videoFiles[1].link
+                    //index 1 is always HD on API
+                  );
+                }
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator()
+              );
+            }
+
+          },
         ),
       )
     );

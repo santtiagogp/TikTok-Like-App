@@ -12,8 +12,11 @@ class VideosApi extends VideoRespGateway {
   @override
   Future<VideoResponseModel> getVideos(int perPage) async {
     final Uri url = Uri.parse("${VideosHelpers.videosApi}/popular?per_page=$perPage&min_width=1080&min_height=1920");
-
-    final resp = await http.get(url);
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'rsRidR77mu0XkWYFMciLCzeTzCoHGo9tfBlgpCDKi0w2JRioENzOwLIC'
+    };
+    final resp = await http.get(url, headers: requestHeaders);
     if(resp.statusCode == 200) {
       final data = VideoRespMapper().fromMap(jsonDecode(resp.body));
       return data;

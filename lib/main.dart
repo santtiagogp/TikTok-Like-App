@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'infrastructure/driven_adapters/videos_api/videos_api.dart';
+import 'ui/home/home_bloc/home_bloc.dart';
 
 import 'ui/home/home_screen.dart';
 
@@ -9,10 +12,13 @@ class TikTokLikeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'TikTok Like App',
-      home: HomeScreen(),
-      debugShowCheckedModeBanner: false,
+    return BlocProvider(
+      create: (context) => HomeBloc(VideosApi()),
+      child: const MaterialApp(
+        title: 'TikTok Like App',
+        home: HomeScreen(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

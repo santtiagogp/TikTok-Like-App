@@ -6,7 +6,7 @@ class VideoFileMapper extends Mapper<VideoFile> {
   VideoFile fromMap(Map<String, dynamic> json) {
     return VideoFile(
       id: json['id'],
-      quality: json['quality'],
+      quality: qualityValues.map[json["quality"]]!,
       width: json['width'],
       height: json['height'],
       fps: json['fps'],

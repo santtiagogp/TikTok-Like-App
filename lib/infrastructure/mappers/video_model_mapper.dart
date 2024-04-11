@@ -13,7 +13,7 @@ class VideoModelMapper extends Mapper<VideoModel> {
       url: json['url'],
       image: json['image'],
       videoFiles: List<VideoFile>.from(
-        json["videos"].map((x) => VideoFileMapper().fromMap(x))
+        json["video_files"].map((x) => VideoFileMapper().fromMap(x))
       ),
     );
   }
