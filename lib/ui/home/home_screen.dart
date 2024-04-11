@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget {
             VideoWidget('https://videos.pexels.com/video-files/5386411/5386411-hd_720_1366_25fps.mp4'),
             VideoWidget('https://videos.pexels.com/video-files/6963395/6963395-hd_1080_1920_25fps.mp4'),
             VideoWidget('https://videos.pexels.com/video-files/7438482/7438482-hd_1080_1872_30fps.mp4'),
+            VideoWidget('https://videos.pexels.com/video-files/1409899/1409899-hd_1280_720_25fps.mp4')
           ],
         ),
       )
