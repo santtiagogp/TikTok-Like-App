@@ -24,7 +24,7 @@ class _VideoWidgetState extends State<VideoWidget> with SingleTickerProviderStat
   void initState() {
     controller = VideoPlayerController.networkUrl(
       Uri.parse(widget.videoUrl)
-    )..initialize();
+    )..initialize().then((value) => setState(() => isLoading = true));
 
     controller.play();
     controller.setLooping(true);
@@ -32,10 +32,6 @@ class _VideoWidgetState extends State<VideoWidget> with SingleTickerProviderStat
     animController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400)
-    );
-
-    controller.addListener(()
-      => controller.value.isBuffering ? isLoading = true : isLoading = false
     );
 
     super.initState();
@@ -60,7 +56,11 @@ class _VideoWidgetState extends State<VideoWidget> with SingleTickerProviderStat
             SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              child: VideoPlayer(
+              child: !isLoading ? Container(
+                color: Colors.black,
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(),
+              ) : VideoPlayer(
                 controller,
               )
             ),
