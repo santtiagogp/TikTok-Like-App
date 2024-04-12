@@ -18,6 +18,7 @@ class _VideoWidgetState extends State<VideoWidget> with SingleTickerProviderStat
   late VideoPlayerController controller;
   late AnimationController animController;
   bool showPause = false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -31,6 +32,10 @@ class _VideoWidgetState extends State<VideoWidget> with SingleTickerProviderStat
     animController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400)
+    );
+
+    controller.addListener(()
+      => controller.value.isBuffering ? isLoading = true : isLoading = false
     );
 
     super.initState();

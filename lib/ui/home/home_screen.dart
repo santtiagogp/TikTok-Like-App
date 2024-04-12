@@ -30,6 +30,7 @@ class HomeScreen extends StatelessWidget {
               final videos = state.videos;
 
               return PageView.builder(
+                physics: const ClampingScrollPhysics(),
                 itemCount: videos.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
