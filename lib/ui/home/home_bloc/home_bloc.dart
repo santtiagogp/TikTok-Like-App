@@ -16,13 +16,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     on<OnInit>((event, emit) async {
       emit(HomeLoading());
-      if(videos.isEmpty) {
-        final resp = await _videosApi.getVideos(5);
-        videos = resp.videos;
-        emit(HomeFetched(videos, false));
-      } else {
-        HomeFetched(videos, true);
-      }
+      final resp = await _videosApi.getVideos(5);
+      videos = resp.videos;
+      emit(HomeFetched(videos, false));
     });
 
     on<ReachFinal>((event, emit) async {

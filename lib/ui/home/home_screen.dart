@@ -15,6 +15,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late final PageController _controller;
 
+  bool firstTime = true;
+
   @override
   void initState() {
     _controller = PageController();
@@ -29,10 +31,14 @@ class _HomeScreenState extends State<HomeScreen> {
     _controller.addListener(() {
       if(_controller.page == bloc.videos.length - 1) {
         bloc.add(ReachFinal());
+        print('Reached final');
       }
     });
 
-    bloc.add(OnInit());
+    if(firstTime) {
+      bloc.add(OnInit());
+      firstTime = false;
+    }
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -51,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               return PageView.builder(
                 physics: const ClampingScrollPhysics(),
+                controller: _controller,
                 itemCount: videos.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
