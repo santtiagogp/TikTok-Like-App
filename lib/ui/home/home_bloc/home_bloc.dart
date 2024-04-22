@@ -15,14 +15,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(this._videosApi) : super(HomeInitial()) {
 
     on<OnInit>((event, emit) async {
-      emit(HomeLoading());
       final resp = await _videosApi.getVideos(5);
       videos = resp.videos;
       emit(HomeFetched(videos, false));
     });
 
     on<ReachFinal>((event, emit) async {
-      emit(HomeInitial());
       final resp = await _videosApi.getNextVideos();
       for (var video in resp.videos) {
         videos.add(video);

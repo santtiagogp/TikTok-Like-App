@@ -29,9 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final bloc = BlocProvider.of<HomeBloc>(context);
 
     _controller.addListener(() {
-      if(_controller.page == bloc.videos.length - 1) {
+      if(_controller.page == bloc.videos.length - 2) {
         bloc.add(ReachFinal());
-        print('Reached final');
       }
     });
 
@@ -52,25 +51,16 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, state) {
 
             if(state is HomeFetched) {
-
-              final videos = state.videos;
-
               return PageView.builder(
-                physics: const ClampingScrollPhysics(),
                 controller: _controller,
-                itemCount: videos.length,
+                itemCount: state.videos.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  return VideoWidget(
-                    videos[index].videoFiles[1].link
-                    //index 1 is always HD on API
-                  );
-                }
+                  return VideoWidget(state.videos[index].videoFiles[1].link);
+                },
               );
             } else {
-              return const Center(
-                child: CircularProgressIndicator()
-              );
+              return const CircularProgressIndicator();
             }
 
           },
