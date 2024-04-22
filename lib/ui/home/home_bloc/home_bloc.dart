@@ -10,14 +10,30 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   final VideosApi _videosApi;
+  List<VideoModel> videos = [];
 
   HomeBloc(this._videosApi) : super(HomeInitial()) {
 
     on<OnInit>((event, emit) async {
       emit(HomeLoading());
-      final resp = await _videosApi.getVideos(5);
-      emit(HomeFetched(resp.videos, false));
+      if(videos.isEmpty) {
+        final resp = await _videosApi.getVideos(5);
+        videos = resp.videos;
+        emit(HomeFetched(videos, false));
+      } else {
+        HomeFetched(videos, true);
+      }
     });
+
+    on<ReachFinal>((event, emit) async {
+      emit(HomeInitial());
+      final resp = await _videosApi.getNextVideos();
+      for (var video in resp.videos) {
+        videos.add(video);
+      }
+      emit(HomeFetched(videos, true));
+    });
+    
   }
 
 }

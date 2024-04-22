@@ -5,4 +5,4 @@ sealed class HomeEvent {}
 
 class OnInit extends HomeEvent {}
 
-class OnReachTwo extends HomeEvent {}
+class ReachFinal extends HomeEvent {}

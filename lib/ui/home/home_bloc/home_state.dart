@@ -13,4 +13,5 @@ final class HomeFetched extends HomeState {
 
   final List<VideoModel> videos;
   final bool reachedTwo;
+  
 }

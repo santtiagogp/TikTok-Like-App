@@ -4,13 +4,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'home_bloc/home_bloc.dart';
 import 'widgets/video_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  late final PageController _controller;
+
+  @override
+  void initState() {
+    _controller = PageController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
 
     final bloc = BlocProvider.of<HomeBloc>(context);
+
+    _controller.addListener(() {
+      if(_controller.page == bloc.videos.length - 1) {
+        bloc.add(ReachFinal());
+      }
+    });
 
     bloc.add(OnInit());
 
